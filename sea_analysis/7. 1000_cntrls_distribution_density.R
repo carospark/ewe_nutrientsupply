@@ -1,9 +1,6 @@
-#from may12 distribution density 2
-
 
 # from https://stats.stackexchange.com/questions/321542/how-can-i-draw-a-value-randomly-from-a-kernel-density-estimate
 
-rm(list=ls())
 
 rdens <- function(n, density=z, data=x, kernel="gaussian") {
   width <- z$bw                              # Kernel width
@@ -28,24 +25,19 @@ density(y, kernel="gaussian")
 hey<- function() {
   y <- rdens(n, z, x)
   y2 <- round(y[y<2008.5 & y>=1963.5])
-  #results <- boop
 }
 
 thousand<- as.data.frame(do.call(rbind, replicate(1000, as.matrix(hey()), simplify=FALSE)))
-setwd("~/Desktop/Dir/lisa/controls")
 
-#save(thousand, file="thousand_controls.Rda")
-
-
-load("~/Desktop/Dir/resubmission/controls/thousand_controls.Rda")
+save(thousand, file="thousand_controls.Rda")
 
 
+#for plotting:
 ay <- as.data.frame(thousand[1:1200,])
 ay$group <- c(rep("a", 150), rep("b", 150), rep("c", 150), rep("d", 150), rep("e", 150), rep("f", 150), rep("g", 150), rep("h", 150))
 colnames(ay) <- c("V1", "group")
 
 ggplot(data=ay)+ geom_histogram(aes(x=V1, group=group, fill=group), binwidth=2, position="identity", alpha=.4)+theme_classic()+xlab("Control year of event")+ylab("Count")+theme(legend.position="top", legend.title=element_blank())+ guides(fill = guide_legend(nrow = 1))+theme(text=element_text(size=17))
-
 
 #ggsave("8controls.png")
 
@@ -57,7 +49,6 @@ ba<- ggplot(data=thousand) +
   geom_density(aes(x=V1), alpha=.5, color="#e36d5f", fill="#e36d5f")+ ylim(0,0.05)+theme_classic()+ylab("Density")+xlab("Control year of event")
 
 ba+theme(text=element_text(size=17))
-
 
 
 ca<- ggplot() + 
