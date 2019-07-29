@@ -1,8 +1,3 @@
-#from plot2.R
-
-
-rm(list=ls())
-setwd("~/Desktop/Dir/github")
 
 load("/Users/awesomesauce/Desktop/Dir/lisa/abs_estimates_new.Rda")
 load("/Users/awesomesauce/Desktop/Dir/lisa/country_groups.Rda")
@@ -22,27 +17,20 @@ abs[,2:6]= (abs[,2:6]-abs$avg)/abs$avg
 abs$iso <- NULL
 res<- abs %>% group_by(code.x, code.y) %>% summarise_each(mean)
 
-boop <- res[,1:7]
-#View(boop)
+bo <- res[,1:7]
 
-colnames(boop)<- c("code", "group", "0", "-2", "-1", "+1", "+2")
-boop[boop == "5801"] <- "Least Developed Countries"
-boop[boop == "5802"] <- "Landlocked Developing"
-boop[boop == "5815"] <- "Low Income Food Deficit"
-boop[boop == "5817"] <- "Net Food-Importing Developing"
-boop[boop == "5706"] <- "European Union"
+colnames(bo)<- c("code", "group", "0", "-2", "-1", "+1", "+2")
+bo[bo == "5801"] <- "Least Developed Countries"
+bo[bo == "5802"] <- "Landlocked Developing"
+bo[bo == "5815"] <- "Low Income Food Deficit"
+bo[bo == "5817"] <- "Net Food-Importing Developing"
+bo[bo == "5706"] <- "European Union"
 
-boop <- as.data.frame(boop)
-boop2 <- reshape::melt(boop, by=c("code", "group"))
-#View(boop2)
+bo2 <- reshape::melt(bo, by=c("code", "group"))
 
-boop2$variable <- factor(boop2$variable, levels = c("-2", "-1", "0", "+1", "+2"))
+bo2$variable <- factor(bo2$variable, levels = c("-2", "-1", "0", "+1", "+2"))
 
-
-# boop2$grpee <- paste(boop2[,1],boop2[,2])
-boop2<- arrange(boop2, code)
-
-boop2$code <- c(rep("Vitamin B6", 25), rep("Calcium", 25), rep("Copper", 25), rep("Fiber", 25), rep("Folate", 25), rep("Iron", 25), rep("Magnesium", 25), rep("Niacin", 25), rep("Phosphorus", 25), rep("Potassium",25), rep("Riboflavin", 25), rep("Sodium", 25), rep("Thiamin", 25), rep("Vitamin A",25), rep("Vitamin C",25), rep("Zinc",25))
+bo2$code <- c(rep("Vitamin B6", 25), rep("Calcium", 25), rep("Copper", 25), rep("Fiber", 25), rep("Folate", 25), rep("Iron", 25), rep("Magnesium", 25), rep("Niacin", 25), rep("Phosphorus", 25), rep("Potassium",25), rep("Riboflavin", 25), rep("Sodium", 25), rep("Thiamin", 25), rep("Vitamin A",25), rep("Vitamin C",25), rep("Zinc",25))
 
 
 #------------------#------------------#------------------#------------------
@@ -69,7 +57,6 @@ load("~/Desktop/Dir/lisa/controls/calcium_finbox_abscntrls2.Rda")
 #------------------#------------------#------------------#------------------
 #------------------#------------------#------------------#------------------
 #------------------#------------------#------------------#------------------
-boop2
 load("/Users/awesomesauce/Desktop/Dir/lisa/abs_estimates_new.Rda")
 
 avg_est <- abs_estimates_new[,-c(1,8)]
@@ -137,11 +124,8 @@ hi_box2$code <- gr
 
 
 
-
-#devtools::install_github("eliocamp/ggnewscale")
 library("ggnewscale")
 
-#ribs <- asdf 
 
 # 
 ribs <- ggplot()+ theme_classic()+ geom_ribbon(data=hi_box, aes(year, ymin=five, ymax=ninetyfive, group=code, fill=code))+ scale_fill_hue(c=50, l=90) +new_scale_fill()+ geom_ribbon(data=hi_box, aes(year, ymin=twenty, ymax=seventy, group=code, fill=code))
@@ -168,4 +152,3 @@ cr + theme_bw() + theme(panel.border=element_blank(), panel.grid.major = element
   theme(strip.text.x = element_text(face="bold"),
         strip.background = element_blank())+ scale_y_continuous(name="Normalized composite")+theme(panel.spacing = unit(-0.8, "lines"))
 
-#grey_micronuts
