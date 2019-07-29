@@ -1,11 +1,3 @@
-# from june21 creating cool ci graph and june2 creating cool ci graph MERGED
-
-#setwd("~/Desktop/Dir/github")
-
-#taken from jan28
-rm(list=ls())
-setwd("~/Desktop/Dir/lisa/controls")
-
 
 load("/Users/awesomesauce/Desktop/Dir/lisa/combined_lolli.Rda")
 
@@ -56,10 +48,6 @@ ggplot(recomb, aes(x=diff, xmin=low, xmax=high, y=Nutrient, group=group))+
 
 
 #ggsave("allnutrient_cis_perc.jpg", width=7, height=8.5)
-
-
-#5 x 5.6
-rm(list=ls())
 
 
 
