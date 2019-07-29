@@ -1,15 +1,3 @@
-# from june2 fooling around bubbles
-
-
-
-
-#taken from jan28
-#install.packages("packcircles")
-
-rm(list=ls())
-setwd("~/Desktop/Dir/lisa/controls")
-
-# libraries
 library(packcircles)
 
 
@@ -69,12 +57,9 @@ dat.gg <- circleLayoutVertices(packing, npoints=100)
 
 
 arg <- c("#F8766D", "#EC8239", "#DB8E00" ,"#C79800", "#AEA200", "#8FAA00" , "white", "#64B200", "#00B81B", "#00BD5C","#00C085", "#00C1A7", "#00BFC4" ,"#00BADE", "#00B2F3" ,"#00A6FF", "#7C96FF" ,"#B385FF", "#D874FD", "#EF67EB", "#FD61D3", "#FF63B6", "#FF6B94")
-arg
-
-data$Nutrient
 
 # Make the plot
-bubblz <- ggplot() + 
+bubbl3 <- ggplot() + 
   
   # Make the bubbles
   geom_polygon(data = dat.gg, aes(x, y, group = id, fill=as.factor(id)), colour = "white", alpha = 0.6) +
@@ -88,8 +73,6 @@ bubblz <- ggplot() +
   theme_void() + 
   theme(legend.position="none") 
 
-
-bubblz
 
 ggsave("bubbles2.png", height=4.5, width=3.1)
 
