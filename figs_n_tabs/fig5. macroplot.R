@@ -1,9 +1,3 @@
-#from may28 macro plot
-setwd("~/Desktop/Dir/github")
-
-
-rm(list=ls())
-setwd("~/Desktop/Dir/lisa")
 
 load("/Users/awesomesauce/Desktop/Dir/lisa/abs_estimates_new_macro.Rda")
 load("/Users/awesomesauce/Desktop/Dir/lisa/country_groups.Rda")
@@ -20,25 +14,16 @@ abs[,2:6]= (abs[,2:6]-abs$avg)/abs$avg
 abs$iso <- NULL
 res<- abs %>% group_by(code.x, code.y) %>% summarise_each(mean)
 
-boop <- res[,1:7]
-#View(boop)
+bo <- res[,1:7]
 
-colnames(boop)<- c("code", "group", "0", "-2", "-1", "+1", "+2")
-boop[boop == "5802"] <- "Landlocked Developing"
-boop[boop == "5815"] <- "Low Income Food Deficit"
+colnames(bo)<- c("code", "group", "0", "-2", "-1", "+1", "+2")
+bo[bo == "5802"] <- "Landlocked Developing"
+bo[bo == "5815"] <- "Low Income Food Deficit"
 
-boop <- as.data.frame(boop)
-boop2 <- reshape::melt(boop, by=c("code", "group"))
-#View(boop2)
+bo2 <- reshape::melt(bo, by=c("code", "group"))
 
-boop2$variable <- factor(boop2$variable, levels = c("-2", "-1", "0", "+1", "+2"))
-
-
-# boop2$grpee <- paste(boop2[,1],boop2[,2])
-boop2<- arrange(boop2, code)
-
-unique(boop2$code)
-boop2$code <- c(rep("Calories", 10), rep("Carbohydrates", 10),  rep("Monounsaturated FA",10), rep("Protein", 10), rep("Polyunsaturated FA", 10), rep("Saturated FA", 10))
+bo2$variable <- factor(bo2$variable, levels = c("-2", "-1", "0", "+1", "+2"))
+bo2$code <- c(rep("Calories", 10), rep("Carbohydrates", 10),  rep("Monounsaturated FA",10), rep("Protein", 10), rep("Polyunsaturated FA", 10), rep("Saturated FA", 10))
 
 
 
@@ -76,12 +61,6 @@ load("~/Desktop/Dir/lisa/controls/sfa_finbox_abscntrls2.Rda")
 hi_box <- rbind(cal_finalbox, carbs_finalbox, mufa_finalbox, pufa_finalbox, prot_finalbox, sfa_finalbox)
 
 hi_box$code <- c(rep("Calories", 5), rep("Carbohydrates", 5),  rep("Monounsaturated FA",5), rep("Protein", 5), rep("Polyunsaturated FA", 5), rep("Saturated FA", 5))
-
-
-#need GREEN AND PINK
-#"#ec9032", "#a8dd76", "#66d4c6", "#f6a0d0", "#ffcc5c"
-# orange, green, blue, pink, yellow
-
 
 
 cr <- ggplot()+geom_ribbon(data=hi_box, aes(year, ymin=five, ymax=ninetyfive, group=code), fill="#9c9b9b", alpha=0.8)+ geom_ribbon(data=hi_box, aes(year, ymin=twenty, ymax=seventy, group=code),fill="#565656" ,alpha=0.5)+ geom_line(data=hi_box, aes(year, median, group=code), color="#565656")+ geom_line(data=hi, aes(variable, value, group= code, color=group), size=1.3)+geom_line(data=boop2, aes(variable, value, group=interaction(code,group), color= group), size=1)+scale_color_manual(values=(c("black", "#a8dd76", "#f6a0d0")))+facet_wrap(~code)+theme_classic()+theme(legend.position="top")
