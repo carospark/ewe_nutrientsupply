@@ -1,27 +1,13 @@
-#from sept 6 multidisaster
-
-
-setwd("~/Desktop/Dir/august katja")
-library(tidyr)
-library(plyr)
-library(dplyr)
-library(ggplot2)
-library(RColorBrewer)
-library(reshape2)
-
-
 
 load("~/Desktop/Dir/NEW regional special/popdam_7yrsgrp.Rda")
-guh <- filter(popdam_7yrsgrp, code=="5802")
-landlock<- unique(guh$iso)
+landlock2 <- filter(popdam_7yrsgrp, code=="5802")
+landlock<- unique(landlock2$iso)
 landlock <- as.data.frame(landlock)
 colnames(landlock) <- c("iso")
 
 load("/Users/awesomesauce/Desktop/Dir/june/emdat_combined_final.Rda")
 
 landlock <- left_join(landlock, emdat, by="iso")
-
-#half half split between n<5 and n>=5
 
 fruitprod1000box[fruitprod1000box=="min2"] <- "-2"
 
