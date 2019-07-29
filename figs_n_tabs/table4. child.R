@@ -1,17 +1,3 @@
-# from may30 redo may28 child table
-
-rm(list=ls())
-
-options(scipen=999)
-
-setwd("~/Desktop/Dir/github")
-
-
-
-#---------------------------------------------------------------------------
-
-rm(list=ls())
-
 
 load("/Users/awesomesauce/Desktop/Dir/lisa/abs_dip_boot_ci.Rda")
 a <- as.data.frame(t(absdiff_boot))
@@ -40,19 +26,14 @@ load("/Users/awesomesauce/Desktop/Dir/lisa/rel_dip_specgrp.Rda")
 load("/Users/awesomesauce/Desktop/Dir/lisa/abs_dip_specgrp.Rda")
 
 
+rownames(dip)<- c("mean", "lowci", "highci")
+setDT(dip, keep.rownames=TRUE)
+dip <- melt(dip, by=rn)
+dip2 <- cbind(dip, colsplit(gah$variable, "_", c("code", "group")))
 
-rownames(fuckyes)<- c("mean", "lowci", "highci")
-setDT(fuckyes, keep.rownames=TRUE)
+absdip <- dcast(dip2, code~ rn+group, value.var="value")
 
-##View(fuckyes)
-
-gah <- melt(fuckyes, by=rn)
-gah2 <- cbind(gah, colsplit(gah$variable, "_", c("code", "group")))
-##View(gah2)
-
-merp <- dcast(gah2, code~ rn+group, value.var="value")
-#View(merp)
-abs_spec <- merp[,c(1,
+abs_spec <- absdip[,c(1,
                     12,7,2, 
                     13,8,3,
                     14,9,4,
@@ -63,11 +44,11 @@ abs_spec <- merp[,c(1,
 rownames(reldiff)<- c("mean", "lowci", "highci")
 setDT(reldiff, keep.rownames=TRUE)
 
-gah_me <- melt(reldiff, by=rn)
-gah3 <- cbind(gah_me, colsplit(gah_me$variable, "_", c("code", "group")))
+reldiff2 <- melt(reldiff, by=rn)
+reldiff2 <- cbind(reldiff2, colsplit(reldiff2$variable, "_", c("code", "group")))
 
-merp2 <- dcast(gah3, code~ rn+group, value.var="value")
-rel_spec <- merp2[,c(1,
+reldiff3 <- dcast(reldiff2, code~ rn+group, value.var="value")
+rel_spec <- reldiff3[,c(1,
                      12,7,2, 
                      13,8,3,
                      14,9,4,
@@ -75,9 +56,7 @@ rel_spec <- merp2[,c(1,
                      16,6,11)]
 
 rel_spec[,2:16]<-rel_spec[,2:16]*100
-#View(rel_spec)
-# abs_spec_table<- as.data.frame(format(round(abs_spec[,-1], digits = 2), nsmall=2))
-# rel_spec_table<- as.data.frame(format(round(rel_spec[,-1], digits = 2), nsmall=2))
+
 
 abs_spec_table <- abs_spec[,-1]
 rel_spec_table <- rel_spec[,-1]
@@ -89,7 +68,6 @@ rel_spec_table$code <- code
 abs_spec_table <- abs_spec_table[,c(16,1:15)]
 abs_spec_table<- arrange(abs_spec_table, code) 
 abs_preci <- abs_spec_table
-#View(abs_preci)
 
 rel_spec_table <- rel_spec_table[,c(16,1:15)]
 rel_spec_table<- arrange(rel_spec_table, code) 
@@ -102,10 +80,6 @@ rel_preci <- rel_spec_table
 c2<-c
 c2[,5:7]<- c[,5:7]*100
 
-#c2[,2:7] <- round(c2[,2:7], digits=2)
-##View(c2)
-
-##View(rel_preci)
 landlock1 <- rel_preci[,c(1,8:10)]
 landlock2 <- abs_preci[,c(1,8:10)]
 
@@ -146,7 +120,6 @@ fancy4 <- round(fancy3[,-1], digits = 2)
 fancy4$code <- code
 fancy4$adequate<- rda
 #View(fancy4)
-
 
 child_table <- fancy4[,c(20, 13,1:3,14:16, 10:12, 17:19)]
 View(child_table)
