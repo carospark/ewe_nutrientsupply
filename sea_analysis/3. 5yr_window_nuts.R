@@ -31,7 +31,7 @@ sodium <- subset(sodium, is.na(sodium$mark))
 
 
 #create 5 year windows for the remaining data entries
-sodium <- cbind(min2 = lag(sodium$start, n=2, default= NA),
+sod <- cbind(min2 = lag(sodium$start, n=2, default= NA),
               min1 = lag(sodium$start, n=1, default = NA),
               sodium,
               plus1 = lead(sodium$start, n=1, default= NA),
