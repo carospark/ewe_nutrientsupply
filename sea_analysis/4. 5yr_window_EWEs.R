@@ -1,6 +1,6 @@
 #using sodium supply as an example
 
-load("~/Desktop/Dir/genus/sod_7yrs.Rda")
+load("~/Desktop/Dir/genus/sod_5yrs.Rda")
 
 sod$start_year <- as.numeric(as.character(sod$start_year))
 indx <- sapply(sod, is.factor)
